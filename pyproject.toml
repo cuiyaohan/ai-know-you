@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-know-you"
+version = "0.1.0"
+description = "Agent-era onboarding wizard: a standardized, re-runnable, portable pipeline that makes any AI agent truly know its user."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "ai-know-you contributors" }]
+keywords = [
+    "agent",
+    "onboarding",
+    "ai",
+    "memory",
+    "profile",
+    "cli",
+    "llm",
+    "personalization",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "click>=8.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuiyaohan/ai-know-you"
+Repository = "https://github.com/cuiyaohan/ai-know-you"
+Documentation = "https://github.com/cuiyaohan/ai-know-you#readme"
+Changelog = "https://github.com/cuiyaohan/ai-know-you/blob/main/CHANGELOG.md"
+
+[project.scripts]
+ai-know-you = "ai_know_you.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["ai_know_you*"]
+
+[tool.setuptools.package-data]
+ai_know_you = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

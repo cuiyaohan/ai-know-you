@@ -1,0 +1,118 @@
+<svg width="960" height="400" viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ai-know-you architecture pipeline">
+  <title>ai-know-you pipeline</title>
+  <defs>
+    <style>
+      .card { fill:#FFFFFF; stroke:#E2E8F0; stroke-width:1.5; }
+      .head { fill:#4F46E5; }
+      .head-opt { fill:#0EA5E9; }
+      .num { fill:#FFFFFF; font:700 15px ui-sans-serif, system-ui, sans-serif; }
+      .title { fill:#0F172A; font:700 15px ui-sans-serif, system-ui, sans-serif; }
+      .sub { fill:#475569; font:400 11px ui-sans-serif, system-ui, sans-serif; }
+      .opttag { fill:#0EA5E9; font:700 10px ui-sans-serif, system-ui, sans-serif; }
+      .arrow { stroke:#94A3B8; stroke-width:2; fill:none; }
+      .outcard { fill:#0F172A; }
+      .outtitle { fill:#E2E8F0; font:700 14px ui-sans-serif, system-ui, sans-serif; }
+      .chip { fill:#1E293B; stroke:#334155; stroke-width:1; }
+      .chipt { fill:#CBD5E1; font:600 11px ui-sans-serif, system-ui, sans-serif; }
+      .icon { stroke:#FFFFFF; stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="400" fill="#F8FAFC"/>
+
+  <!-- Stage cards -->
+  <!-- 1 Intro -->
+  <g transform="translate(36,60)">
+    <rect class="card" width="160" height="150" rx="14"/>
+    <rect class="head" width="160" height="38" rx="14"/>
+    <rect y="24" width="160" height="14" fill="#4F46E5"/>
+    <text class="num" x="14" y="25">1</text>
+    <text class="title" x="34" y="25">Intro</text>
+    <path class="icon" d="M18 56 h22 a6 6 0 0 1 6 6 v14 a6 6 0 0 1 -6 6 h-14 l-8 8 v-8 h-0 a6 6 0 0 1 -6 -6 v-14 a6 6 0 0 1 6 -6 Z"/>
+    <text class="sub" x="14" y="112">Open questions to</text>
+    <text class="sub" x="14" y="128">build a base</text>
+    <text class="sub" x="14" y="144">picture.</text>
+  </g>
+
+  <!-- 2 Dig -->
+  <g transform="translate(218,60)">
+    <rect class="card" width="160" height="150" rx="14"/>
+    <rect class="head" width="160" height="38" rx="14"/>
+    <rect y="24" width="160" height="14" fill="#4F46E5"/>
+    <text class="num" x="14" y="25">2</text>
+    <text class="title" x="34" y="25">Dig</text>
+    <path class="icon" d="M16 58 v44 M16 58 l10 12 -10 10 10 12 -10 10"/>
+    <text class="sub" x="14" y="120">Follow-ups that</text>
+    <text class="sub" x="14" y="136">drill into answers</text>
+    <text class="sub" x="14" y="152">and probe conflicts.</text>
+  </g>
+
+  <!-- 3 Assess (optional) -->
+  <g transform="translate(400,60)">
+    <rect class="card" width="160" height="150" rx="14" stroke="#0EA5E9" stroke-dasharray="5 4"/>
+    <rect class="head-opt" width="160" height="38" rx="14"/>
+    <rect y="24" width="160" height="14" fill="#0EA5E9"/>
+    <text class="num" x="14" y="25">3</text>
+    <text class="title" x="34" y="25">Assess</text>
+    <text class="opttag" x="110" y="25">optional</text>
+    <path class="icon" d="M16 64 a20 20 0 1 0 40 0 M36 44 v40 M36 104 v8"/>
+    <text class="sub" x="14" y="128">Non-diagnostic</text>
+    <text class="sub" x="14" y="144">style calibrators.</text>
+  </g>
+
+  <!-- 4 Calibrate -->
+  <g transform="translate(582,60)">
+    <rect class="card" width="160" height="150" rx="14"/>
+    <rect class="head" width="160" height="38" rx="14"/>
+    <rect y="24" width="160" height="14" fill="#4F46E5"/>
+    <text class="num" x="14" y="25">4</text>
+    <text class="title" x="34" y="25">Calibrate</text>
+    <path class="icon" d="M16 60 l10 10 18 -22 M52 70 l-8 8 -6 -6"/>
+    <text class="sub" x="14" y="112">Agent states what</text>
+    <text class="sub" x="14" y="128">it understood; you</text>
+    <text class="sub" x="14" y="144">confirm or correct.</text>
+  </g>
+
+  <!-- 5 Assemble -->
+  <g transform="translate(764,60)">
+    <rect class="card" width="160" height="150" rx="14"/>
+    <rect class="head" width="160" height="38" rx="14"/>
+    <rect y="24" width="160" height="14" fill="#4F46E5"/>
+    <text class="num" x="14" y="25">5</text>
+    <text class="title" x="34" y="25">Assemble</text>
+    <path class="icon" d="M16 58 h28 l8 8 v34 h-36 Z M22 70 h22 M22 82 h22 M22 94 h14"/>
+    <text class="sub" x="14" y="120">Write the portable</text>
+    <text class="sub" x="14" y="136">skeleton prompt</text>
+    <text class="sub" x="14" y="152">package.</text>
+  </g>
+
+  <!-- arrows -->
+  <path class="arrow" d="M198 135 h18"/>
+  <path class="arrow" d="M380 135 h16"/>
+  <path class="arrow" d="M562 135 h16"/>
+  <path class="arrow" d="M744 135 h16"/>
+
+  <!-- output card -->
+  <g transform="translate(36,250)">
+    <rect class="outcard" width="888" height="110" rx="16"/>
+    <text class="outtitle" x="24" y="34">Profile Package (local-first, portable Markdown + frontmatter)</text>
+    <g transform="translate(24,52)">
+      <rect class="chip" width="120" height="40" rx="8"/><text class="chipt" x="18" y="25">SOUL.md</text>
+    </g>
+    <g transform="translate(160,52)">
+      <rect class="chip" width="140" height="40" rx="8"/><text class="chipt" x="18" y="25">IDENTITY.md</text>
+    </g>
+    <g transform="translate(316,52)">
+      <rect class="chip" width="120" height="40" rx="8"/><text class="chipt" x="18" y="25">USER.md</text>
+    </g>
+    <g transform="translate(452,52)">
+      <rect class="chip" width="140" height="40" rx="8"/><text class="chipt" x="18" y="25">MEMORY.md</text>
+    </g>
+    <g transform="translate(608,52)">
+      <rect class="chip" width="140" height="40" rx="8"/><text class="chipt" x="18" y="25">REDLINES.md</text>
+    </g>
+    <g transform="translate(764,52)">
+      <rect class="chip" width="100" height="40" rx="8"/><text class="chipt" x="14" y="25">+ profile</text>
+    </g>
+  </g>
+</svg>

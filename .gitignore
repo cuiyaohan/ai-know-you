@@ -1,0 +1,23 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Generated profiles (local, never commit)
+ai-know-you/
+demo-profile/
+*.profile.md
+
+# Tooling
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.DS_Store
