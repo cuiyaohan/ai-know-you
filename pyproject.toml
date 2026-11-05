@@ -38,6 +38,9 @@ dependencies = [
     "click>=8.1.0",
 ]
 
+[project.optional-dependencies]
+crypto = ["pyaes>=1.6.1"]
+
 [project.urls]
 Homepage = "https://github.com/cuiyaohan/ai-know-you"
 Repository = "https://github.com/cuiyaohan/ai-know-you"

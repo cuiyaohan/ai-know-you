@@ -14,6 +14,8 @@ env/
 # Generated profiles (local, never commit)
 ai-know-you/
 demo-profile/
+demo-*/
+*.akyv
 *.profile.md
 
 # Tooling

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" font-family="ui-sans-serif,system-ui,Segoe UI,Roboto,Arial">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#bg)"/>
+  <circle cx="980" cy="210" r="160" fill="#4F46E5" opacity="0.18"/>
+  <circle cx="1090" cy="190" r="150" fill="#0EA5E9" opacity="0.16"/>
+  <circle cx="1035" cy="200" r="150" fill="none" stroke="#6366F1" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="1035" cy="200" r="92" fill="none" stroke="#0EA5E9" stroke-width="1.25" opacity="0.45"/>
+  <text x="80" y="192" fill="#FFFFFF" font-size="62" font-weight="700" letter-spacing="-1">ai-know-you</text>
+  <text x="82" y="238" fill="#94A3B8" font-size="22">Agent-era onboarding wizard — make any AI agent truly know its user.</text>
+  <rect x="82" y="266" width="64" height="4" rx="2" fill="#0EA5E9"/>
+  <text x="82" y="304" fill="#64748B" font-size="16">five-stage pipeline · local-first · privacy-redacted · portable profile package</text>
+</svg>

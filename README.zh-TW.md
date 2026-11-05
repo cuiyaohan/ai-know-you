@@ -1,11 +1,9 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="ai-know-you" width="160" height="160" />
+  <img src="assets/banner.svg" alt="ai-know-you" width="100%" />
 </p>
 
-<h1 align="center">ai-know-you</h1>
-
 <p align="center">
-  <b>智慧體時代的入职嚮導。</b><br/>
+  <b>智慧體時代的入職嚮導。</b><br/>
   一套標準化、可複跑、可移植的流程，讓<b>任何</b> AI 智慧體真正懂它的使用者。
 </p>
 
@@ -15,6 +13,7 @@
   <img src="https://img.shields.io/badge/license-MIT-0EA5E9" alt="license" />
   <img src="https://img.shields.io/badge/python-3.9%2B-4F46E5" alt="python" />
   <img src="https://img.shields.io/github/stars/cuiyaohan/ai-know-you?style=social" alt="stars" />
+  <img src="https://img.shields.io/github/last-commit/cuiyaohan/ai-know-you?label=last%20commit" alt="last commit" />
 </p>
 
 <p align="center">
@@ -26,115 +25,132 @@
 
 ---
 
-## 為什麼做這個
+## 描述
 
-當你拿到一個全新的智慧體——Claude Code、Codex、WorkBuddy，或你自己搭的——它對你**一無所知**。它只能用一次一次含糊的對話慢慢了解你，而且下個會話就忘了。
+`ai-know-you` 是一個開源的入職嚮導，讓任何智慧體從零開始「全方面懂你」——一次對話，生成可移植的使用者檔案與智慧體骨架提示詞。
 
-`ai-know-you` 把「了解你」做成**一次、可重複、可移植**的流程。跑一遍，你就會得到一個*使用者檔案包*——帶結構化 frontmatter 的純 Markdown 檔案——任何智慧體都能載入，且完全歸你所有。
+基於 [MIT 許可證](LICENSE) 開源。完整中英描述與證書聲明見 [DESCRIPTION.md](DESCRIPTION.md)。
 
-> 一句話心智模型：**`ai-know-you` 是智慧體入职界的 `create-react-app`。**
+## 為什麼需要它
 
-## 你會得到什麼
+當你拿到一個全新的智慧體（Claude Code、Codex、WorkBuddy，或你自建的）時，它對你**一無所知**。它只能用一次次含糊的對話慢慢摸索你，而且下個會話就忘光。
 
-跑完流程，會在本地產生一個可移植的檔案包：
+`ai-know-you` 把「了解你」變成**一次性的、可複跑的、可移植的流程**。跑一遍，你就得到一套*檔案包*——帶結構化 frontmatter 的純 Markdown 檔案——任何智慧體都能載入，且完全歸你所有。
 
-| 檔案 | 作用 |
-|------|------|
-| `SOUL.md` | 智慧體是誰——它的語氣與原則 |
-| `IDENTITY.md` | 智慧體的自我身份，供你編輯 |
-| `USER.md` | 關於*你*的鮮活檔案 |
-| `MEMORY.md` | 提煉後的長期記憶（事實 + 偏好） |
-| `REDLINES.md` | 你的硬性邊界，絕不可逾越 |
-| `profile.md` | 完整分層檔案，含機器可讀的 frontmatter |
+> 一句話定位：**`ai-know-you` 就是智慧體入職界的 `create-react-app`。**
 
-所有檔案都人類可讀、對 Git 友好、與具體智慧體無關。
+## 功能特性
 
-## 五個階段
+- **五階段流水線。** 初識 → 深挖 → 可選測評 → **校準** → 裝配。校準階段是最大差異點：智慧體先向你展示「我理解中的你」，等你點頭或糾正後才會落庫——杜絕「我懂你了」式的幻覺。
+- **分層檔案模型。** 事實 / 偏好 / 邊界各自獨立演進，而不是塌縮成一團不分層的泥。
+- **可移植骨架提示詞。** 生成 `SOUL` / `IDENTITY` / `USER` / `MEMORY` / `REDLINES`——直接丟進任何支援記憶骨架的智慧體。
+- **多格式匯出。** 一份檔案可匯出 `json`、`yaml`、Obsidian 風格 Markdown、以及 Graphviz `dot`。
+- **關係圖。** 把檔案渲染成自包含 SVG（或 DOT），*看見*你的事實、偏好與邊界如何連接。
+- **零知識本地保險庫。** 整個檔案目錄可用 AES-256-CBC + PBKDF2-HMAC-SHA256 封進單個 `.akyv` 檔案（可選 `crypto` 依賴），資料不出本機。
+- **可審計的技能推薦器。** 基於檔案推導「一鍵安裝技能」提示詞，規則透明、可解釋——每條推薦都帶理由。
+- **本地優先與隱私脫敏。** 敏感類別（憑證、證件、健康、精確位置）在寫入前即被識別並脫敏。
+- **復訪機制。** 可重複執行以增量更新檔案；流水線冪等且感知合併。
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="ai-know-you 流程" width="100%" />
+  <img src="assets/profile-layers.svg" alt="分層檔案模型" width="720" />
 </p>
 
-1. **初識**——開放式問題，建立基礎畫像（你是誰、目標是什麼、打算怎麼用智慧體）。
-2. **深挖**——向下追問你的回答，主動暴露矛盾，而不是默默猜。
-3. **測評**（可選）——非診斷性的溝通風格校準。絕不是貼標籤，也不是診斷。
-4. **校準**——智慧體陳述它*理解*的你。在你確認或糾正**之後**才落庫。杜絕「我幻覺出我很懂你」。
-5. **裝配**——寫出五份骨架檔案，外加結構化的 `profile.md`。
+## 工作原理
 
-## 設計原則
+<p align="center">
+  <img src="assets/architecture.svg" alt="五階段架構" width="760" />
+</p>
 
-- **本地優先。** 一切都在你的磁碟上。無雲端、無遙測、無帳號。
-- **隱私預設開啟。** 敏感類別（憑證、證件、健康、精確位置）會在寫入前被識別並脫敏。
-- **分層，而非一鍋粥。** 事實、偏好、邊界各自獨立演進，檔案長期保持清晰。
-- **是活的，不是一次性的。** 復訪機制每 N 天或偵測到新訊號時回來增量更新，而不是一張靜態問卷。
-- **可移植。** 標準 Markdown + YAML frontmatter。直接丟進任何支援 `SOUL/IDENTITY/USER/MEMORY` 骨架的智慧體。
+1. **初識** —— 用幾個反問播種身份，而非冷冰冰的表單。
+2. **深挖** —— 深入目標、阻礙與工作風格；矛盾當場擺出並解決。
+3. **測評**（可選） —— 簡短校準問卷把認知風格信號折進檔案（絕不當標籤）。
+4. **校準** —— 智慧體輸出*它對你的理解*供你審閱。你點頭，或糾正它。只有這時才落庫。
+5. **裝配** —— 渲染五份骨架檔案、寫出 `SKILLS.md`，並標記一個復訪檢查點。
+
+<p align="center">
+  <img src="assets/skeletons.svg" alt="骨架提示詞" width="760" />
+</p>
 
 ## 快速開始
 
 ```bash
-# 安裝
-pip install -e .
-
-# 執行互動式嚮導
-ai-know-you run
-
-# 或產生一份非互動的範例檔案（適合 CI / 文件）
-ai-know-you sample --dir ./demo-profile
-
-# 檢視已擷取的內容
-ai-know-you show
-
-# 自我檢查環境
-ai-know-you doctor
+pip install ai-know-you            # 核心
+pip install "ai-know-you[crypto]"  # + 加密保險庫
 ```
 
-> 深度模式：`--depth fast`（約 5 分鐘，夠用）或 `--depth deep`（約 30 分鐘，更好）。同一套引擎，不同深度。第 3 階段測評透過 `--assess` 選開。
-
-## 範例輸出
-
-執行後，你的 `USER.md` 大概長這樣：
-
-```markdown
-# USER.md - About Your Human
-
-- **Name:** Cui
-- **Occupation:** indie developer / content creator
-- **City:** Shenzhen
-
-## Context
-- **primary_goal**: ship ai-know-you to 100k GitHub stars
-- **agent_use_case**: coding
-
-## How they like to work
-- **communication_style**: direct and concise
-- **avoids**: assistants that reply too verbosely
+```bash
+ai-know-you run       # 互動式五階段嚮導
+ai-know-you sample    # 非互動式示範（適合 CI / 文件）
+ai-know-you show      # 列印已存檔案
+ai-know-you doctor    # 環境自檢
 ```
+
+## 一鍵安裝技能
+
+裝配完成後，開啟 `SKILLS.md`——裡面有一段可直接複製的提示詞。把它貼進任何支援技能的智慧體（WorkBuddy / Claude / Codex / …）即可為你安裝推薦技能集：
+
+```
+請幫我安裝以下技能（如尚未安裝）：
+- coding-copilot
+- blunt-communicator
+- goal-tracker
+- content-writer
+- privacy-guard
+
+這些是 ai-know-you 基於我的使用者檔案推薦的技能，請直接啟用。
+```
+
+隨時也可列印它：
+
+```bash
+ai-know-you skills
+```
+
+## 命令
+
+| 命令 | 用途 |
+| --- | --- |
+| `ai-know-you run` | 互動式五階段入職嚮導 |
+| `ai-know-you sample` | 非互動式示範執行（適合 CI / 文件） |
+| `ai-know-you show` | 列印已存檔案 |
+| `ai-know-you export` | 匯出為 `json` / `yaml` / `obsidian` / `dot` |
+| `ai-know-you graph` | 渲染檔案關係圖（SVG） |
+| `ai-know-you skills` | 列印一鍵安裝技能提示詞 |
+| `ai-know-you seal` / `unseal` | 加密 / 解密本地 `.akyv` 保險庫 |
+| `ai-know-you doctor` | 環境自檢 |
+
+## 關係圖
+
+<p align="center">
+  <img src="assets/profile-graph.svg" alt="檔案關係圖" width="720" />
+</p>
+
+```bash
+ai-know-you graph --dir ./my-profile
+```
+
+## 隱私與本地優先
+
+所有資料都以純 Markdown + YAML frontmatter 存於本地——跨智慧體可移植、人類可讀。無雲端、無遙測。流水線會在敏感欄位寫入儲存層之前就將其剝離（憑證、身分證號、健康資料、精確位置）。
 
 ## 路線圖
 
-- [ ] 第 3 階段測評的插件系統（MBTI、大五人格、決策風格）
-- [ ] 裝配後自動安裝匹配技能
-- [ ] 匯入/匯出到主流智慧體記憶格式（Claude、Codex、WorkBuddy）
-- [ ] 定時復訪守護程序
-- [ ] 嚮導的 Web 介面
-- [ ] 本 README 增加更多語言
+- [ ] 即時檔案 + 關係圖的 Web 預覽
+- [ ] 領域專屬測評的插件系統
+- [ ] 跨裝置的加密同步（仍零知識）
+- [ ] 主流智慧體記憶格式的模版包
+- [ ] 落地頁的 `asciinema` / GIF 示範
 
-## 國際化
+## 多語言
 
-本 README 提供多語言版本，翻譯由社群維護——歡迎提交 PR。
+本 README 提供以下語言：
 
-| 語言 | 檔案 |
-|------|------|
-| English | [README.md](README.md) |
-| 简体中文 | [README.zh-CN.md](README.zh-CN.md) |
-| 繁體中文 | [README.zh-TW.md](README.zh-TW.md) |
-| 日本語 | [README.ja.md](README.ja.md) |
-| 한국어 | [README.ko.md](README.ko.md) |
+- [English](README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
 ## 貢獻
 
-我們非常需要你的協助——無論是一份翻譯、一個新的測評插件，還是一個 bug 修復。請參閱 [CONTRIBUTING.md](docs/CONTRIBUTING.md) 與 [Spec](docs/SPEC.md)。請彼此友善。
+參見 [CONTRIBUTING.md](docs/CONTRIBUTING.md) 與 [SPEC.md](docs/SPEC.md) 中的設計契約。路線圖見 [ROADMAP.md](docs/ROADMAP.md)。
 
 ## 授權
 
-[MIT](LICENSE) © ai-know-you contributors。
+[MIT](LICENSE) © cuiyaohan。軟體按「現狀」提供，不作任何擔保。

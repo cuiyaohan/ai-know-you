@@ -22,6 +22,10 @@ from ai_know_you.profile.models import Profile
 from ai_know_you.stages import Session
 from ai_know_you.stages import stage1_intro, stage2_dig, stage3_assess, stage4_calibrate, stage5_assemble
 from ai_know_you.utils import revisit
+from ai_know_you import export as _export
+from ai_know_you.render import graph as _graph
+from ai_know_you.recommend import render_install_prompt
+from ai_know_you import vault as _vault
 
 console = Console()
 
@@ -140,6 +144,108 @@ def _import_ok(mod: str) -> bool:
         return True
     except Exception:
         return False
+
+
+@main.command()
+@click.option("--dir", "base_dir", default=None, help="Profile directory (default: current dir).")
+@click.option(
+    "--format",
+    "fmt",
+    type=click.Choice(["json", "yaml", "obsidian", "dot", "all"]),
+    default="all",
+    help="Export format.",
+)
+def export(base_dir: str | None, fmt: str) -> None:
+    """Export the stored profile to portable formats (json/yaml/obsidian/dot)."""
+    base_dir = base_dir or _default_dir()
+    p = store.load_profile(base_dir)
+    if p is None:
+        console.print("[yellow]No profile found at[/yellow] " + store.profile_dir(base_dir))
+        raise SystemExit(1)
+    out_dir = os.path.join(store.profile_dir(base_dir), "exports")
+    os.makedirs(out_dir, exist_ok=True)
+    written = []
+    if fmt in ("json", "all"):
+        written.append(_export.export_json(p, os.path.join(out_dir, "profile.json")))
+    if fmt in ("yaml", "all"):
+        written.append(_export.export_yaml(p, os.path.join(out_dir, "profile.yaml")))
+    if fmt in ("obsidian", "all"):
+        written.append(_export.export_obsidian(p, os.path.join(out_dir, "profile.obsidian.md")))
+    if fmt in ("dot", "all"):
+        written.append(_export.export_dot(p, os.path.join(out_dir, "profile.dot")))
+    console.print("[bold green]Exported:[/bold green]")
+    for w in written:
+        console.print(f"  - {w}")
+
+
+@main.command()
+@click.option("--dir", "base_dir", default=None, help="Profile directory (default: current dir).")
+@click.option("--out", default=None, help="Output SVG path.")
+def graph(base_dir: str | None, out: str | None) -> None:
+    """Render the profile as a relationship map (SVG)."""
+    base_dir = base_dir or _default_dir()
+    p = store.load_profile(base_dir)
+    if p is None:
+        console.print("[yellow]No profile found at[/yellow] " + store.profile_dir(base_dir))
+        raise SystemExit(1)
+    out = out or os.path.join(store.profile_dir(base_dir), "profile-graph.svg")
+    _graph.render_svg(p, out)
+    console.print(f"[bold green]Graph written:[/bold green] [cyan]{out}[/cyan]")
+
+
+@main.command()
+@click.option("--dir", "base_dir", default=None, help="Profile directory (default: current dir).")
+def skills(base_dir: str | None) -> None:
+    """Print a one-click skill install prompt for your agent."""
+    base_dir = base_dir or _default_dir()
+    p = store.load_profile(base_dir)
+    if p is None:
+        console.print("[yellow]No profile found at[/yellow] " + store.profile_dir(base_dir))
+        raise SystemExit(1)
+    console.print(render_install_prompt(p))
+
+
+@main.command()
+@click.option("--dir", "base_dir", default=None, help="Profile directory to seal (default: current dir).")
+@click.option("--vault", default=None, help="Output .akyv path.")
+@click.option("--passphrase", default=None, help="Vault passphrase (prompted if omitted).")
+def seal(base_dir: str | None, vault: str | None, passphrase: str | None) -> None:
+    """Encrypt the profile directory into a local .akyv vault."""
+    base_dir = base_dir or _default_dir()
+    src = store.profile_dir(base_dir)
+    if not os.path.isdir(src):
+        console.print("[yellow]No profile directory at[/yellow] " + src)
+        raise SystemExit(1)
+    vault = vault or (base_dir.rstrip(os.sep) + ".akyv")
+    if passphrase is None:
+        from rich.prompt import Prompt
+
+        passphrase = Prompt.ask("Vault passphrase", password=True, console=console)
+    try:
+        _vault.seal(src, passphrase, vault)
+    except RuntimeError as e:
+        console.print(f"[red]{e}[/red]")
+        raise SystemExit(1)
+    console.print(f"[bold green]Sealed:[/bold green] [cyan]{vault}[/cyan]")
+
+
+@main.command()
+@click.option("--vault", required=True, help="The .akyv file to unseal.")
+@click.option("--dir", "base_dir", default=None, help="Restore target (default: current dir).")
+@click.option("--passphrase", default=None, help="Vault passphrase (prompted if omitted).")
+def unseal(vault: str, base_dir: str | None, passphrase: str | None) -> None:
+    """Decrypt a .akyv vault back into a profile directory."""
+    base_dir = base_dir or _default_dir()
+    if passphrase is None:
+        from rich.prompt import Prompt
+
+        passphrase = Prompt.ask("Vault passphrase", password=True, console=console)
+    try:
+        _vault.unseal(vault, passphrase, store.profile_dir(base_dir))
+    except (RuntimeError, ValueError) as e:
+        console.print(f"[red]{e}[/red]")
+        raise SystemExit(1)
+    console.print(f"[bold green]Unsealed into:[/bold green] [cyan]{store.profile_dir(base_dir)}[/cyan]")
 
 
 if __name__ == "__main__":

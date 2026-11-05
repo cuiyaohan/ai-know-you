@@ -7,6 +7,7 @@ import os
 from ..profile.models import Profile
 from ..profile import store
 from ..render.templates import SKELETON_FILES, render_all
+from ..recommend import render_skills_md
 from ..utils import privacy
 from .session import Session
 
@@ -36,8 +37,14 @@ def run(s: Session, p: Profile, base_dir: str) -> None:
     profile_path = store.save_profile(p, base_dir)
     written.append(os.path.basename(profile_path))
 
+    skills_path = os.path.join(out_dir, "SKILLS.md")
+    with open(skills_path, "w", encoding="utf-8") as fh:
+        fh.write(render_skills_md(p))
+    written.append("SKILLS.md")
+
     s.note("[green]Done.[/green] Wrote the following into:")
     s.note(f"  [cyan]{out_dir}[/cyan]")
     for f in written:
         s.note(f"  - {f}")
     s.note("\nDrop these into any agent that supports a SOUL/IDENTITY/USER/MEMORY skeleton.")
+    s.note("Open [cyan]SKILLS.md[/cyan] for a one-click skill install prompt.")

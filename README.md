@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="ai-know-you" width="160" height="160" />
+  <img src="assets/banner.svg" alt="ai-know-you" width="100%" />
 </p>
-
-<h1 align="center">ai-know-you</h1>
 
 <p align="center">
   <b>Agent-era onboarding wizard.</b><br/>
@@ -27,131 +25,132 @@
 
 ---
 
-## Description / 描述
+## Description
 
-> **EN** — An open-source onboarding wizard that makes any Agent "fully understand you" from scratch — one conversation to a portable user profile and Agent skeleton prompts.
->
-> **中文** — 让 Agent 从零开始「全方面懂你」的开源初始化向导 —— 一次对话，生成可移植的用户档案与 Agent 骨架提示词。
->
-> Licensed under the [MIT License](LICENSE). See [DESCRIPTION.md](DESCRIPTION.md) for the full bilingual description and license declaration.
+`ai-know-you` is an open-source onboarding wizard that makes any Agent "fully understand you" from scratch — one conversation to a portable user profile and Agent skeleton prompts.
+
+Licensed under the [MIT License](LICENSE). See [DESCRIPTION.md](DESCRIPTION.md) for the full bilingual description and license declaration.
 
 ## Why this exists
 
-When you hand a fresh agent — Claude Code, Codex, WorkBuddy, or your own — it
-knows **nothing** about you. It learns you the slow way: one ambiguous chat at a
-time, and it forgets by next session.
+When you hand a fresh agent — Claude Code, Codex, WorkBuddy, or your own — it knows **nothing** about you. It learns you the slow way: one ambiguous chat at a time, and it forgets by next session.
 
-`ai-know-you` turns "getting to know you" into a **single, repeatable, portable
-flow**. Run it once and you get a *profile package* — plain Markdown files with
-structured frontmatter — that any agent can load and that you fully own.
+`ai-know-you` turns "getting to know you" into a **single, repeatable, portable flow**. Run it once and you get a *profile package* — plain Markdown files with structured frontmatter — that any agent can load and that you fully own.
 
 > The mental model: **`ai-know-you` is the `create-react-app` of agent onboarding.**
 
-## What you get
+## Features
 
-Running the pipeline produces a portable package, stored locally:
-
-| File | Purpose |
-|------|---------|
-| `SOUL.md` | Who the agent is — its voice and principles |
-| `IDENTITY.md` | The agent's self-identity, for you to edit |
-| `USER.md` | A living dossier about *you* |
-| `MEMORY.md` | Curated long-term notes (facts + preferences) |
-| `REDLINES.md` | Your hard boundaries, never to be crossed |
-| `profile.md` | The full layered profile with machine-readable frontmatter |
-
-All files are human-readable, git-friendly, and agent-agnostic.
-
-## The five stages
+- **Five-stage pipeline.** Intro → Dig → optional Assessment → **Calibration** → Assembly. The Calibration stage is the differentiator: the agent shows you *"here is what I understood about you"* and waits for your approval or correction before anything is locked in — no hallucinated "I know you now."
+- **Layered profile model.** Facts / Preferences / Boundaries evolve on independent cadences instead of collapsing into one undifferentiated blob.
+- **Portable skeleton prompts.** Generates `SOUL` / `IDENTITY` / `USER` / `MEMORY` / `REDLINES` — drop them into any agent that supports a memory skeleton.
+- **Multi-format export.** Emit `json`, `yaml`, Obsidian-flavoured Markdown, and Graphviz `dot` from a single profile.
+- **Relationship graph.** Render the profile as a self-contained SVG (or DOT) to *see* how your facts, preferences and boundaries connect.
+- **Zero-knowledge local vault.** Seal the whole profile directory with AES-256-CBC + PBKDF2-HMAC-SHA256 into a single `.akyv` file (optional `crypto` extra). Nothing leaves your machine.
+- **Auditable skill recommender.** Derives a one-click skill install prompt from your profile with a transparent, explainable ruleset — every suggestion carries a reason.
+- **Local-first & privacy-redacted.** Sensitive categories (credentials, IDs, health, precise location) are detected and redacted before they are ever written.
+- **Revisit mechanism.** Re-run to incrementally update the profile; the pipeline is idempotent and merge-aware.
 
 <p align="center">
-  <img src="assets/architecture.svg" alt="ai-know-you pipeline" width="100%" />
+  <img src="assets/profile-layers.svg" alt="Layered profile model" width="720" />
 </p>
 
-1. **Intro** — open questions to build a base picture (who you are, your goal, how you'll use the agent).
-2. **Dig** — follow-ups that drill into your answers and surface contradictions instead of silently guessing.
-3. **Assess** *(optional)* — non-diagnostic, communication-style calibrators. Never a label, never a diagnosis.
-4. **Calibrate** — the agent states what it *understood* about you. You confirm or correct **before** anything is saved. No hallucinated "I know you."
-5. **Assemble** — writes the five skeleton files plus the structured `profile.md`.
+## How it works
 
-## Design principles
+<p align="center">
+  <img src="assets/architecture.svg" alt="Five-stage architecture" width="760" />
+</p>
 
-- **Local-first.** Everything lives on your disk. No cloud, no telemetry, no account.
-- **Privacy by default.** Sensitive categories (credentials, ID documents, health, precise location) are detected and redacted before they are ever written.
-- **Layered, not a blob.** Facts, preferences, and boundaries evolve independently so the profile stays coherent over time.
-- **Alive, not one-shot.** A revisit mechanism re-checks in every N days or when a new signal appears — incremental updates, not a static form.
-- **Portable.** Standard Markdown + YAML frontmatter. Drop it into any agent that supports a `SOUL/IDENTITY/USER/MEMORY` skeleton.
+1. **Intro** — seed identity with a few反问 (counter-questions) instead of a cold form.
+2. **Dig** — deepen on goals, blockers and working style; contradictions are surfaced and resolved on the spot.
+3. **Assessment** (optional) — a short calibration quiz folds cognitive-style signals into the profile (never as a label).
+4. **Calibration** — the agent outputs *its understanding of you* for review. You nod, or you correct it. Only then is it persisted.
+5. **Assembly** — renders the five skeleton files, writes `SKILLS.md`, and marks a revisit checkpoint.
+
+<p align="center">
+  <img src="assets/skeletons.svg" alt="Skeleton prompts" width="760" />
+</p>
 
 ## Quick start
 
 ```bash
-# install
-pip install -e .
-
-# run the interactive wizard
-ai-know-you run
-
-# or generate a non-interactive demo profile (great for CI / docs)
-ai-know-you sample --dir ./demo-profile
-
-# inspect what was captured
-ai-know-you show
-
-# verify the environment
-ai-know-you doctor
+pip install ai-know-you            # core
+pip install "ai-know-you[crypto]"  # + encrypted vault
 ```
 
-> Depth modes: `--depth fast` (~5 min, good enough) or `--depth deep`
-> (~30 min, better). Same engine, different depth. Stage 3 assessment is
-> opt-in via `--assess`.
-
-## Example output
-
-After a run, your `USER.md` looks like this:
-
-```markdown
-# USER.md - About Your Human
-
-- **Name:** Cui
-- **Occupation:** indie developer / content creator
-- **City:** Shenzhen
-
-## Context
-- **primary_goal**: ship ai-know-you to 100k GitHub stars
-- **agent_use_case**: coding
-
-## How they like to work
-- **communication_style**: direct and concise
-- **avoids**: assistants that reply too verbosely
+```bash
+ai-know-you run       # interactive five-stage wizard
+ai-know-you sample    # non-interactive demo (great for CI / docs)
+ai-know-you show      # print the stored profile
+ai-know-you doctor    # environment self-check
 ```
+
+## One-click skill install
+
+After Assembly, open `SKILLS.md` — it contains a ready-to-copy prompt. Paste it into any agent that supports skills (WorkBuddy / Claude / Codex / …) and it installs the recommended set for you:
+
+```
+请帮我安装以下技能（如尚未安装）：
+- coding-copilot
+- blunt-communicator
+- goal-tracker
+- content-writer
+- privacy-guard
+
+这些是 ai-know-you 基于我的用户档案推荐的技能，请直接启用。
+```
+
+You can also print it any time with:
+
+```bash
+ai-know-you skills
+```
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `ai-know-you run` | Interactive five-stage onboarding wizard |
+| `ai-know-you sample` | Non-interactive demo run (CI / docs friendly) |
+| `ai-know-you show` | Print the stored profile |
+| `ai-know-you export` | Export to `json` / `yaml` / `obsidian` / `dot` |
+| `ai-know-you graph` | Render the profile relationship map (SVG) |
+| `ai-know-you skills` | Print a one-click skill install prompt |
+| `ai-know-you seal` / `unseal` | Encrypt / decrypt the local `.akyv` vault |
+| `ai-know-you doctor` | Environment self-check |
+
+## Relationship graph
+
+<p align="center">
+  <img src="assets/profile-graph.svg" alt="Profile relationship graph" width="720" />
+</p>
+
+```bash
+ai-know-you graph --dir ./my-profile
+```
+
+## Privacy & local-first
+
+Everything lives on disk as plain Markdown + YAML frontmatter — portable across agents and readable by humans. No cloud, no telemetry. The pipeline strips sensitive fields (credentials, national IDs, health data, precise location) before they ever reach the storage layer.
 
 ## Roadmap
 
-- [ ] Plugin system for stage 3 assessments (MBTI, Big Five, decision styles)
-- [ ] Auto-install matched skills after assembly
-- [ ] Import/export to major agent memory formats (Claude, Codex, WorkBuddy)
-- [ ] Scheduled revisit daemon
-- [ ] Web UI for the wizard
-- [ ] More languages in this README (see below)
+- [ ] Web UI preview of the live profile + graph
+- [ ] Plugin system for domain-specific assessments
+- [ ] Encrypted sync between machines (still zero-knowledge)
+- [ ] Template packs for popular agent memory formats
+- [ ] `asciinema` / GIF demo on the landing page
 
-## Internationalization
+## Multilingual
 
-This README is available in multiple languages. Translations are community-maintained — PRs welcome.
+This README is available in:
 
-| Language | File |
-|----------|------|
-| English | [README.md](README.md) |
-| 简体中文 | [README.zh-CN.md](README.zh-CN.md) |
-| 繁體中文 | [README.zh-TW.md](README.zh-TW.md) |
-| 日本語 | [README.ja.md](README.ja.md) |
-| 한국어 | [README.ko.md](README.ko.md) |
+- [English](README.md) · [简体中文](README.zh-CN.md) · [繁體中文](README.zh-TW.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
 ## Contributing
 
-We would love your help — whether it is a translation, a new assessment plugin,
-or a bug fix. See [CONTRIBUTING.md](docs/CONTRIBUTING.md) and the
-[Spec](docs/SPEC.md). Please be excellent to each other.
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) and the design contract in [SPEC.md](docs/SPEC.md). The roadmap lives in [ROADMAP.md](docs/ROADMAP.md).
 
 ## License
 
-[MIT](LICENSE) © ai-know-you contributors.
+[MIT](LICENSE) © cuiyaohan. The software is provided "as is", without warranty of any kind.

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 300" font-family="ui-sans-serif,system-ui,Segoe UI,Roboto,Arial">
+  <rect width="920" height="300" fill="#FFFFFF"/>
+  <text x="40" y="42" fill="#0F172A" font-size="22" font-weight="700">Portable skeleton prompts</text>
+  <text x="40" y="66" fill="#64748B" font-size="14">Five Markdown + frontmatter files any SOUL/IDENTITY/USER/MEMORY agent can consume directly.</text>
+
+  <!-- card template: x positions 40, 200, 360, 520, 680 ; width 160 height 150 -->
+  <g>
+    <rect x="40" y="96" width="160" height="150" rx="12" fill="#4F46E5"/>
+    <text x="60" y="140" fill="#FFFFFF" font-size="20" font-weight="700">SOUL</text>
+    <text x="60" y="170" fill="#E0E7FF" font-size="12">who the agent</text>
+    <text x="60" y="188" fill="#E0E7FF" font-size="12">is becoming</text>
+
+    <rect x="216" y="96" width="160" height="150" rx="12" fill="#0EA5E9"/>
+    <text x="236" y="140" fill="#FFFFFF" font-size="20" font-weight="700">IDENTITY</text>
+    <text x="236" y="170" fill="#E0F2FE" font-size="12">the agent's</text>
+    <text x="236" y="188" fill="#E0F2FE" font-size="12">own identity</text>
+
+    <rect x="392" y="96" width="160" height="150" rx="12" fill="#6366F1"/>
+    <text x="412" y="140" fill="#FFFFFF" font-size="20" font-weight="700">USER</text>
+    <text x="412" y="170" fill="#E0E7FF" font-size="12">about the</text>
+    <text x="412" y="188" fill="#E0E7FF" font-size="12">human</text>
+
+    <rect x="568" y="96" width="160" height="150" rx="12" fill="#0891B2"/>
+    <text x="588" y="140" fill="#FFFFFF" font-size="20" font-weight="700">MEMORY</text>
+    <text x="588" y="170" fill="#CFFAFE" font-size="12">curated</text>
+    <text x="588" y="188" fill="#CFFAFE" font-size="12">long-term notes</text>
+
+    <rect x="744" y="96" width="160" height="150" rx="12" fill="#EF4444"/>
+    <text x="764" y="140" fill="#FFFFFF" font-size="20" font-weight="700">REDLINES</text>
+    <text x="764" y="170" fill="#FEE2E2" font-size="12">hard</text>
+    <text x="764" y="188" fill="#FEE2E2" font-size="12">boundaries</text>
+  </g>
+</svg>
